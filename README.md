@@ -11,13 +11,12 @@ evaluation — to identify the most effective classification model for
 predicting lung cancer from patient survey responses. The trained models are 
 served through a FastAPI backend and consumed by a React frontend, where 
 users answer an 11-question survey and receive real-time predictions from 
-all three models side-by-side.
+the Random Forest and XGBoost models side-by-side.
 
 ## Models Compared
 
 | Model | Notes |
 |---|---|
-| Decision Tree | Simple baseline; interpretable |
 | Random Forest | Ensemble method; strong baseline performance |
 | XGBoost | Gradient boosting; evaluated against Random Forest |
 
@@ -29,7 +28,7 @@ Evaluation metrics: Classification report, confusion matrix, accuracy score.
 2. Handling missing values and data types
 3. Exploratory Data Analysis (EDA) with visualisations
 4. Feature engineering and selection (incl. an Anxiety × Yellow Fingers interaction term)
-5. Model training (Decision Tree vs Random Forest vs XGBoost)
+5. Model training (Random Forest and XGBoost)
 6. Performance evaluation and comparison
 7. Model export (joblib) for deployment
 8. Serving via FastAPI backend + React frontend for interactive predictions

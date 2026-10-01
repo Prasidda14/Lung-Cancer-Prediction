@@ -23,11 +23,6 @@ const initialForm = Object.fromEntries(
 
 const modelResults = [
   {
-    name: "Decision tree",
-    prediction: "decision_tree_prediction",
-    probability: "decision_tree_probability"
-  },
-  {
     name: "Random forest",
     prediction: "random_forest_prediction",
     probability: "random_forest_probability"
@@ -86,7 +81,7 @@ function App() {
         <div className="hero-copy">
           <h1 id="page-title">Lung cancer risk, made easier to read.</h1>
           <p className="hero-description">
-            Answer eleven questions about common risk factors. Three models will
+            Answer eleven questions about common risk factors. Two models will
             return an estimate, with the probability shown alongside the result.
           </p>
         </div>

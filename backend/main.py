@@ -15,7 +15,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-dtree_model = joblib.load('models/decision_tree_model.pkl')
 rf_model = joblib.load('models/random_forest_model.pkl')
 xgb_model = joblib.load('models/xgb_model.pkl')
 
@@ -58,17 +57,13 @@ def predict(data: PatientData):
         data.anxiety * data.yellow_fingers
     ]])
 
-    dt_prediction = int(dtree_model.predict(features)[0])
     rf_prediction = int(rf_model.predict(features)[0])
     xgb_prediction = int(xgb_model.predict(features)[0])
-    dt_probability = float(dtree_model.predict_proba(features)[0][1])
     rf_probability = float(rf_model.predict_proba(features)[0][1])
     xgb_probability = float(xgb_model.predict_proba(features)[0][1])
 
 
     return {
-        'decision_tree_prediction': dt_prediction,   
-        'decision_tree_probability': dt_probability,
         'random_forest_prediction': rf_prediction,
         'random_forest_probability': rf_probability,
         'xboost_prediction': xgb_prediction,
