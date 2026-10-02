@@ -206,7 +206,6 @@ function App() {
   return (
     <main className="app-shell">
       <div className="topbar">
-        <span>Signed in</span>
         <button type="button" onClick={logout}>Log out</button>
       </div>
       <section className="hero" aria-labelledby="page-title">
