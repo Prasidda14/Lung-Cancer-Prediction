@@ -11,6 +11,11 @@ env/
 
 # Environment variables
 .env
+.env.*
+!.env.example
+*.db
+*.sqlite
+*.sqlite3
 
 # Logs
 logs
@@ -20,6 +25,15 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+
+# Python tooling
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
 
 # Frontend
 node_modules

@@ -31,7 +31,7 @@ Evaluation metrics: Classification report, confusion matrix, accuracy score.
 5. Model training (Random Forest and XGBoost)
 6. Performance evaluation and comparison
 7. Model export (joblib) for deployment
-8. Serving via FastAPI backend + React frontend for interactive predictions
+8. Serving via an authenticated FastAPI backend + React frontend for interactive predictions
 
 ## Tech Stack
 
@@ -42,8 +42,8 @@ Evaluation metrics: Classification report, confusion matrix, accuracy score.
 - Scikit-Learn, XGBoost
 
 **Application**
-- Backend: FastAPI, Joblib
-- Frontend: React (Vite)
+- Backend: FastAPI, SQLAlchemy async, PostgreSQL, Alembic, JWT authentication, Joblib
+- Frontend: React (Vite), React Router
 
 ## Dataset
 
@@ -64,8 +64,15 @@ jupyter notebook "Lung Cancer.ipynb"
 \`\`\`bash
 cd backend
 pip install -r requirements.txt
+copy .env.example .env
+# Edit .env with your PostgreSQL URL and a strong JWT secret
+alembic upgrade head
 uvicorn main:app --reload
 \`\`\`
+
+The backend provides `POST /auth/register`, `POST /auth/login`, and
+`GET /auth/me`. The `POST /predict` endpoint requires the bearer token returned
+by login. PostgreSQL must be running before applying the migration.
 
 ### Frontend
 \`\`\`bash
