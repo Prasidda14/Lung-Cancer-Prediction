@@ -169,6 +169,7 @@ function App() {
   function logout() {
     localStorage.removeItem("lung_cancer_token");
     setToken(null);
+    setFormData({ ...initialForm });
     setResult(null);
   }
 
