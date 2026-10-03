@@ -1,7 +1,6 @@
 # Lung Cancer Prediction Model
 
-An end-to-end machine learning project for predicting lung cancer risk using 
-clinical survey data, extended into a full-stack web application.
+Full-stack machine learning web app that predicts lung cancer risk from clinical survey data using Decision Tree, Random Forest, and XGBoost models, with a FastAPI backend and React frontend — now with user authentication to keep predictions private per user.
 
 ## Overview
 
@@ -10,17 +9,25 @@ exploratory data analysis (EDA), feature engineering, model training, and
 evaluation — to identify the most effective classification model for 
 predicting lung cancer from patient survey responses. The trained models are 
 served through a FastAPI backend and consumed by a React frontend, where 
-users answer an 11-question survey and receive real-time predictions from 
-the Random Forest and XGBoost models side-by-side.
+registered users log in, answer an 11-question survey, and receive real-time 
+predictions from the Random Forest and XGBoost models side-by-side.
+
+## Authentication
+
+- Users register with a username, full name, email, and password, and log in to receive a JWT access token.
+- Passwords are hashed with PBKDF2-HMAC (SHA-256, 300,000 iterations) and a per-user random salt — no plaintext or reversible storage.
+- JWT tokens (2-hour expiry) are issued on login/register and required as a Bearer token to call `/predict`, so predictions are only available to logged-in users.
+- User records are stored in a local SQLite database (`backend/users.db`).
 
 ## Models Compared
 
 | Model | Notes |
 |---|---|
+| Decision Tree | Simple baseline; interpretable (notebook only) |
 | Random Forest | Ensemble method; strong baseline performance |
 | XGBoost | Gradient boosting; evaluated against Random Forest |
 
-Evaluation metrics: Classification report, confusion matrix, accuracy score.
+Evaluation metrics: Classification report, confusion matrix, accuracy score. The deployed API currently serves predictions from Random Forest and XGBoost.
 
 ## Pipeline Steps
 
@@ -28,10 +35,10 @@ Evaluation metrics: Classification report, confusion matrix, accuracy score.
 2. Handling missing values and data types
 3. Exploratory Data Analysis (EDA) with visualisations
 4. Feature engineering and selection (incl. an Anxiety × Yellow Fingers interaction term)
-5. Model training (Random Forest and XGBoost)
+5. Model training (Decision Tree vs Random Forest vs XGBoost)
 6. Performance evaluation and comparison
 7. Model export (joblib) for deployment
-8. Serving via an authenticated FastAPI backend + React frontend for interactive predictions
+8. Serving via a FastAPI backend (with JWT-protected endpoints) and a React frontend for interactive, authenticated predictions
 
 ## Tech Stack
 
@@ -42,7 +49,7 @@ Evaluation metrics: Classification report, confusion matrix, accuracy score.
 - Scikit-Learn, XGBoost
 
 **Application**
-- Backend: FastAPI, SQLAlchemy async, PostgreSQL, Alembic, JWT authentication, Joblib
+- Backend: FastAPI, SQLite, python-jose (JWT), Joblib
 - Frontend: React (Vite), React Router
 
 ## Dataset
@@ -52,34 +59,32 @@ Kaggle — Clinical lung cancer survey dataset
 
 ## Setup
 
-### Model Training / Notebook
-\`\`\`bash
+Clone the repo and install all dependencies (covers notebook, backend, and modeling):
+
+```bash
 git clone https://github.com/Prasidda14/Lung-Cancer-Prediction
 cd Lung-Cancer-Prediction
 pip install -r requirements.txt
+```
+
+### Model Training / Notebook
+```bash
 jupyter notebook "Lung Cancer.ipynb"
-\`\`\`
+```
 
 ### Backend
-\`\`\`bash
+```bash
 cd backend
-pip install -r requirements.txt
-copy .env.example .env
-# Edit .env with your PostgreSQL URL and a strong JWT secret
-alembic upgrade head
 uvicorn main:app --reload
-\`\`\`
-
-The backend provides `POST /auth/register`, `POST /auth/login`, and
-`GET /auth/me`. The `POST /predict` endpoint requires the bearer token returned
-by login. PostgreSQL must be running before applying the migration.
+```
+Set a `JWT_SECRET` environment variable in production — the app falls back to a development default otherwise.
 
 ### Frontend
-\`\`\`bash
+```bash
 cd frontend
 npm install
 npm run dev
-\`\`\`
+```
 
 ## Disclaimer
 
